@@ -1,0 +1,172 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* Palet: teal sebagai aksen utama, slate untuk teks. Kontras WCAG AA di atas kaca. */
+    --color-brand-50: #ecfdf8;
+    --color-brand-100: #d1faee;
+    --color-brand-500: #14b8a6;
+    --color-brand-600: #0d9488;
+    --color-brand-700: #0f766e;
+    --color-ink-900: #0f172a;
+    --color-ink-700: #334155;
+    --color-ink-500: #64748b;
+
+    --ease-glass: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Latar ---------- */
+
+@layer base {
+    html {
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    body {
+        @apply min-h-dvh text-ink-900 antialiased;
+        background:
+            radial-gradient(60rem 40rem at 10% -10%, #99f6e4 0%, transparent 60%),
+            radial-gradient(50rem 40rem at 110% 10%, #c7d2fe 0%, transparent 55%),
+            radial-gradient(40rem 30rem at 50% 110%, #fde68a 0%, transparent 60%),
+            #eef4f7;
+        background-attachment: fixed;
+    }
+
+}
+
+/* ---------- Kaca (glassmorphism) ---------- */
+
+@utility glass {
+    background: rgb(255 255 255 / 0.55);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgb(255 255 255 / 0.7);
+    box-shadow:
+        0 1px 0 rgb(255 255 255 / 0.6) inset,
+        0 10px 30px -12px rgb(15 23 42 / 0.18);
+}
+
+@utility glass-strong {
+    background: rgb(255 255 255 / 0.78);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgb(255 255 255 / 0.85);
+    box-shadow: 0 16px 40px -18px rgb(15 23 42 / 0.25);
+}
+
+/* ---------- Komponen (utilitas, bisa dipakai di Blade) ---------- */
+
+@utility card {
+    @apply glass rounded-2xl p-5 transition duration-300 ease-glass;
+}
+
+@utility card-interactive {
+    @apply card hover:-translate-y-0.5 hover:shadow-xl;
+}
+
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+           transition duration-200 ease-glass focus-visible:outline-2 focus-visible:outline-offset-2
+           focus-visible:outline-brand-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+@utility btn-primary {
+    @apply btn bg-brand-600 text-white shadow-lg shadow-brand-600/25 hover:bg-brand-700 hover:shadow-brand-700/30;
+}
+
+@utility btn-ghost {
+    @apply btn text-ink-700 hover:bg-white/60;
+}
+
+@utility btn-danger {
+    @apply btn bg-rose-600 text-white hover:bg-rose-700;
+}
+
+@utility input {
+    @apply w-full rounded-xl border border-white/80 bg-white/70 px-3.5 py-2.5 text-sm text-ink-900
+           placeholder:text-ink-500 shadow-sm transition duration-200 focus:border-brand-500 focus:bg-white
+           focus:ring-2 focus:ring-brand-500/30;
+}
+
+@utility label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-ink-500;
+}
+
+@utility badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+}
+
+@utility skeleton {
+    @apply rounded-lg bg-slate-300/40;
+    background-image: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.6), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* Tabel kaca: selektor turunan, tidak bisa dijadikan utilitas tunggal. */
+.table-glass th {
+    @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-ink-500;
+}
+
+.table-glass td {
+    @apply px-4 py-3 text-sm text-ink-700;
+}
+
+.table-glass tbody tr {
+    @apply transition duration-150 ease-glass hover:bg-white/60;
+}
+
+/* ---------- Animasi ---------- */
+
+@keyframes shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}
+
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pop {
+    0% { transform: scale(0.96); }
+    60% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.animate-fade-up { animation: fade-up 0.45s var(--ease-glass) both; }
+.animate-pop { animation: pop 0.35s var(--ease-glass); }
+
+/* Stagger untuk daftar kartu: set --i per elemen. */
+.stagger > * { animation: fade-up 0.5s var(--ease-glass) both; animation-delay: calc(var(--i, 0) * 60ms); }
+
+/* Transisi perpindahan halaman (View Transitions API, fallback instan). */
+@view-transition { navigation: auto; }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 260ms;
+    animation-timing-function: var(--ease-glass);
+}
+
+/* Hormati preferensi pengguna. */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+    }
+}
+
+.thin-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(100 116 139 / 0.4) transparent;
+}
+/* Hide Alpine-controlled content until Alpine initializes it. */
+[x-cloak] {
+    display: none !important;
+}

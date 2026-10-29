@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Simbol Toko Siti</title>
+  <rect x="4" y="4" width="120" height="120" rx="34" fill="#e8f7f4"/>
+  <path d="M29 49h70l-7-23H36z" fill="#087f78"/>
+  <path d="M29 49c0 9 13 12 17 2 4 10 17 10 20 0 4 10 17 10 21 0 4 10 17 7 17-2" fill="#ef8b62"/>
+  <path d="M36 56v42h56V56M49 98V76c0-13 30-13 30 0v22" fill="none" stroke="#087f78" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+  <path d="M61 68c-10 4-10 13 0 16s10 12 0 16" fill="none" stroke="#ef8b62" stroke-linecap="round" stroke-width="6"/>
+</svg>

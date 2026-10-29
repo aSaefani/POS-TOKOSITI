@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Foto produk belum tersedia">
+  <rect width="160" height="160" rx="24" fill="#f1f5f4"/>
+  <path d="M43 62h74l-6-26H49z" fill="#087f78" opacity=".75"/>
+  <path d="M43 62c0 9 13 11 18 2 4 9 15 9 19 0 4 9 15 9 19 0 5 9 18 7 18-2M50 68v48h60V68" fill="none" stroke="#087f78" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
+  <path d="M68 89h24M68 101h24" stroke="#ef8b62" stroke-linecap="round" stroke-width="6"/>
+</svg>
